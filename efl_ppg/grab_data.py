@@ -92,4 +92,6 @@ Dataframe for Level {level}, Season {season} excluded.
 if __name__ == "__main__":
     df = grab_data(1, "2020-21")
     print(df.head())
-    df.to_csv("efl_ppg/test_output/test_set.csv",index=False)
+    df.to_csv("efl_ppg/test_output/test_set.csv", index=False)
+
+__all__ = ["grab_data"]

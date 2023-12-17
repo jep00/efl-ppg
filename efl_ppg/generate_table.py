@@ -52,12 +52,17 @@ class GenerateTable:
 
     def _find_outcome(self):
         """Populates an outcome column, eg. Home Win if home goals > away goals."""
-        self.results["home_goals"] = [
-            x.split("–")[0] for x in self.results.full_time_result
-        ]
-        self.results["away_goals"] = [
-            x.split("–")[1] for x in self.results.full_time_result
-        ]
+        try:
+            self.results["home_goals"] = [
+                x.split("-")[0] for x in self.results.full_time_result
+            ]
+            self.results["away_goals"] = [
+                x.split("-")[1] for x in self.results.full_time_result
+            ]
+        except IndexError as e:
+            print(self.results.head())
+            print(self.results.full_time_result.unique())
+            raise e
         self.results["outcome"] = None
         self.results.loc[
             self.results.home_goals > self.results.away_goals, "outcome"
@@ -173,3 +178,5 @@ if __name__ == "__main__":
     table_generator = GenerateTable(results=df)
     table = table_generator.process_results()
     table.to_csv("efl_ppg/test_output/test_table.csv", index=False)
+
+__all__ = ["GenerateTable"]
